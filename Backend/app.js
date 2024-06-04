@@ -7,6 +7,7 @@ const sequelize = require('./config/database');
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
 
+
 const app = express();
 
 app.use(cors());
@@ -17,6 +18,7 @@ app.use('/api/products', productRoutes);
 
 // Configurer Express pour servir des fichiers statiques
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use('/images', express.static(path.join(__dirname, 'public/css')));
 
 sequelize.sync()
   .then(() => {
