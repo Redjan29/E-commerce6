@@ -1,3 +1,5 @@
+//frontend/src/Components/Navbar/Navbar.jsx
+
 import React, {useContext, useState} from "react";
 import "./Navbar.css";
 

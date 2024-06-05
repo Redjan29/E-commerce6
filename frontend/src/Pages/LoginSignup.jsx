@@ -1,3 +1,4 @@
+//frontend/src/Pages/LoginSignup
 import React, { useState } from 'react';
 import './CSS/LoginSignup.css';
 
@@ -26,14 +27,15 @@ const LoginSignup = () => {
         Mot_de_passe,
       }),
     })
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(error => { throw new Error(error.message); });
+    .then(response => response.json().then(data => ({
+      status: response.status,
+      body: data
+    })))
+    .then(obj => {
+      if (obj.status !== 201) {
+        throw new Error(obj.body.errors ? obj.body.errors.map(err => err.msg).join(', ') : obj.body.message);
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
+      console.log('Success:', obj.body);
       setSuccess('Inscription avec succès'); // Afficher le message de succès
     })
     .catch((error) => {

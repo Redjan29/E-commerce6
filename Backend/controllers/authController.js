@@ -15,18 +15,12 @@ exports.loginUser = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    console.log('User found:', user);
-
-    
-    // console.log('Stored hashed password:', user.Mot_de_passe);
-    // console.log('Provided password:', Mot_de_passe);
-
-    // const isMatch = await bcrypt.compare(Mot_de_passe, user.Mot_de_passe);
-    // console.log('Password match status:', isMatch);
-    // if (!isMatch) {
-    //   console.log('Invalid credentials');
-    //   return res.status(400).json({ message: 'Invalid credentials' });
-    // }
+    const isMatch = await bcrypt.compare(Mot_de_passe, user.Mot_de_passe);
+    console.log('Password match status:', isMatch);
+    if (!isMatch) {
+      console.log('Invalid credentials');
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
 
     const token = jwt.sign({ id: user.id_Utilisateur }, 'your_jwt_secret', { expiresIn: '1h' });
     console.log('Login successful, token generated');

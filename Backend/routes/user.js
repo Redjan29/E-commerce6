@@ -1,11 +1,12 @@
 // backend/routes/user.js
 const express = require('express');
-const { registerUser } = require('../controllers/userController');
+const { registerUser, validateRegister } = require('../controllers/userController'); // Importez également validateRegister
 const { loginUser } = require('../controllers/authController');
-const authMiddleware = require('../middleware/authMiddleware'); // Importez le middleware d'authentification
+const authMiddleware = require('../middleware/authMiddleware'); 
 const router = express.Router();
 
-router.post('/register', registerUser);
+// Appliquez le middleware validateRegister avant registerUser
+router.post('/register', validateRegister, registerUser);
 router.post('/login', loginUser);
 
 // Route protégée
