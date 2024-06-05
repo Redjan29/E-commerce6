@@ -6,14 +6,17 @@ const { check, validationResult } = require('express-validator');
 
 // Fonction de middleware pour la validation
 exports.validateRegister = [
-  check('Nom').not().isEmpty().withMessage('Le nom est obligatoire'),
-  check('Prenom').not().isEmpty().withMessage('Le prénom est obligatoire'),
-  check('Email').isEmail().withMessage('L\'adresse e-mail doit être valide'),
+  check('Nom')
+    .not().isEmpty().withMessage('Name is required')
+    .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/).withMessage('Name must contain only letters'),
+  check('Prenom')
+    .not().isEmpty().withMessage('First name is required')
+    .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/).withMessage('First name must contain only letters'),
+  check('Email')
+    .isEmail().withMessage('A valid email address is required'),
   check('Mot_de_passe')
-    .isLength({ min: 8 })
-    .withMessage('Le mot de passe doit contenir au moins 8 caractères')
-    .matches(/\d/)
-    .withMessage('Le mot de passe doit contenir un chiffre'),
+    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+    .matches(/\d/).withMessage('Password must contain a digit')
 ];
 
 exports.registerUser = async (req, res) => {
