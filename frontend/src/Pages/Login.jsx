@@ -20,6 +20,7 @@ const Login = () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include', // Inclure les cookies dans les requêtes
       body: JSON.stringify({
         Email,
         Mot_de_passe,
@@ -33,9 +34,8 @@ const Login = () => {
     })
     .then(data => {
       console.log('Login successful:', data);
-      localStorage.setItem('token', data.token);
       setSuccess('Login successful'); // Set success message
-      window.location.href = '/Dashboard'; // Replace '/dashboard' with your protected route
+      window.location.href = '/'; // Replace '/dashboard' with your protected route
     })
     .catch((error) => {
       console.error('Error:', error);

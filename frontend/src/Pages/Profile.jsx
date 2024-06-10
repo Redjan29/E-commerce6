@@ -1,31 +1,54 @@
-// frontend/src/Pages/Profile.jsx
-import React, { useEffect, useState } from 'react';
-import './CSS/Profile.css';
+// frontend/src/pages/Profile.jsx
+
+import React, { useEffect, useState } from "react";
+import "./CSS/Profile.css";
 
 const Profile = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:5001/api/users/profile', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+    fetch('http://localhost:5001/api/protected/profile', {
+      method: 'GET',
+      credentials: 'include', // Inclure les cookies dans les requêtes
     })
-    .then(response => response.json())
-    .then(data => setUser(data))
-    .catch(error => console.error('Error:', error));
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(error => { throw new Error(error.message); });
+      }
+      return response.json();
+    })
+    .then(data => {
+      setUser(data);
+      setLoading(false);
+    })
+    .catch(error => {
+      setError(error.message);
+      setLoading(false);
+    });
   }, []);
+
+  if (loading) {
+    return <div className="profile">Chargement...</div>;
+  }
+
+  if (error) {
+    return <div className="profile">Erreur: {error}</div>;
+  }
 
   return (
     <div className="profile">
-      <h1>Votre Profil</h1>
-      <p>Nom: {user.Nom}</p>
-      <p>Prénom: {user.Prenom}</p>
-      <p>Email: {user.Email}</p>
-      {/* Ajoutez d'autres informations ici */}
+      <h1>Profil Utilisateur</h1>
+      {user && (
+        <div className="profile-info">
+          <p><strong>Nom:</strong> {user.nom}</p>
+          <p><strong>Prénom:</strong> {user.prenom}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Profile;

@@ -22,7 +22,7 @@ const Utilisateur = sequelize.define('Utilisateur', {
     unique: true,
   },
   Mot_de_passe: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
 }, {
