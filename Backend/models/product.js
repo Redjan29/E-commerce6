@@ -24,6 +24,10 @@ const Product = sequelize.define('Product', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  old_price: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
   Id_CategorieProduit: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -34,6 +38,7 @@ const Product = sequelize.define('Product', {
   },
 }, {
   tableName: 'produit',
+  timestamps: false, // Ajoutez cette ligne si vous n'utilisez pas createdAt et updatedAt
 });
 
 module.exports = Product;

@@ -13,6 +13,11 @@ const CartItems = () => {
     setPromoCode(""); // Effacer le champ de saisie après l'application du code promo
   };
 
+  const totalAmount = getTotalCartAmount();
+  const discountAmount = promoDiscount * totalAmount;
+  const discountedTotal = totalAmount - discountAmount;
+  const discountPercentage = promoDiscount * 100;
+
   return (
     <div className='cartitems'>
       <div className="cartitems-format-main">
@@ -48,12 +53,12 @@ const CartItems = () => {
           <div>
             <div className="cartitems-total-item">
               <p>Subtotal</p>
-              <p>${getTotalCartAmount().toFixed(1)}</p>
+              <p>${totalAmount.toFixed(1)}</p>
             </div>
             <hr />
             <div className="cartitems-total-item">
-              <p>Promo Discount</p>
-              <p>- ${(promoDiscount * getTotalCartAmount()).toFixed(1)}</p>
+              <p>Promo Discount ({discountPercentage.toFixed(1)}%)</p>
+              <p>- ${discountAmount.toFixed(1)}</p>
             </div>
             <hr />
             <div className="cartitems-total-item">
@@ -63,13 +68,13 @@ const CartItems = () => {
             <hr />
             <div className="cartitems-total-item">
               <h3>Total</h3>
-              <h3>${(getTotalCartAmount() - (promoDiscount * getTotalCartAmount())).toFixed(1)}</h3>
+              <h3>${discountedTotal.toFixed(1)}</h3>
             </div>
           </div>
          <Link to='/cart/address'><button>PROCEED TO CHECKOUT</button></Link>  {/* Ajouter onClick pour afficher la section de paiement */}
         </div>
         <div className="cartitems-promocode">
-          <p>If you have a promo code, Enter it here</p>
+          <p>If you have a promo code, enter it here</p>
           <div className="cartitems-promobox">
             <input 
               type="text" 
