@@ -1,0 +1,35 @@
+.address-section {
+    margin: 20px;
+}
+
+.field-group {
+    margin-bottom: 15px;
+}
+
+.field-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.field-group input, .field-group select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.inline-fields {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inline-fields .field-group {
+    width: 48%;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}

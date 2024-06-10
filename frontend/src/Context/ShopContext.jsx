@@ -13,6 +13,8 @@ const getDefaultCart = (products) => {
 const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [all_product, setAllProduct] = useState([]);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
 
   useEffect(() => {
     fetch('http://localhost:5001/api/products')
@@ -32,6 +34,20 @@ const ShopContextProvider = (props) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
 
+  const applyPromoCode = (code) => {
+    // Ici, vous pouvez ajouter la logique pour appliquer le code promo
+    // Par exemple, vérifier si le code est valide et définir la réduction correspondante
+    // Pour l'exemple, je vais utiliser un code promo fictif "SUMMER2024" avec une réduction de 10%
+    if (code === "SUMMER2024") {
+      setPromoCode(code);
+      setPromoDiscount(0.1); // 10% de réduction
+    } else {
+      // Code promo invalide
+      setPromoCode("");
+      setPromoDiscount(0);
+    }
+  };
+
   const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
@@ -40,6 +56,8 @@ const ShopContextProvider = (props) => {
         totalAmount += cartItems[item] * itemInfo.Prix;
       }
     }
+    // Appliquer la réduction du code promo
+    totalAmount *= (1 - promoDiscount);
     return totalAmount;
   };
 
@@ -53,7 +71,17 @@ const ShopContextProvider = (props) => {
     return totalItem;
   };
 
-  const contextValue = { getTotalCartItems, getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart };
+  const contextValue = { 
+    getTotalCartItems, 
+    getTotalCartAmount, 
+    all_product, 
+    cartItems, 
+    addToCart, 
+    removeFromCart,
+    applyPromoCode,
+    promoCode,
+    promoDiscount
+  };
 
   return (
     <ShopContext.Provider value={contextValue}>

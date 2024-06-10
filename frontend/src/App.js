@@ -11,32 +11,28 @@ import men_banner from "./Components/Assets/banner_mens.png";
 import kid_banner from "./Components/Assets/banner_kids.png";
 import LoginSignup from "./Pages/LoginSignup";
 import Login from "./Pages/Login";
-import Profile from "./Pages/Profile"
-
-
+import Profile from "./Pages/Profile";
+import Address from "./Components/Address/Address";
+import Payment from "./Components/Payment/Payment";
 
 function Layout() {
-  const location = useLocation(); // Utilisation de useLocation ici
+  const location = useLocation(); 
   const hideNavFooter = location.pathname === '/Dashboard' || location.pathname === '/Profile';
-
-  
-    // Ajoutez les logs ici pour déboguer
-    console.log("Current Path:", location.pathname);
-    console.log("Hide Navbar and Footer:", hideNavFooter);
-  
 
   return (
     <div>
       {!hideNavFooter && <Navbar />} 
       <Routes>
-      <Route path="/" element={<Shop gender="all" />} />
-          <Route path="/mens" element={<ShopCategory banner={men_banner} category="men" />} />
-          <Route path="/womens" element={<ShopCategory banner={women_banner} category="women" />} />
-          <Route path="/kids" element={<ShopCategory banner={kid_banner} category="kid" />} />
-          <Route path='/product' element={<Product />}>
-            <Route path=':productId' element={<Product />} />
-            </Route>
+        <Route path="/" element={<Shop gender="all" />} />
+        <Route path="/mens" element={<ShopCategory banner={men_banner} category="men" />} />
+        <Route path="/womens" element={<ShopCategory banner={women_banner} category="women" />} />
+        <Route path="/kids" element={<ShopCategory banner={kid_banner} category="kid" />} />
+        <Route path='/product' element={<Product />}>
+          <Route path=':productId' element={<Product />} />
+        </Route>
         <Route path="/cart" element={<Cart />} />
+        <Route path="/cart/address" element={<Address />} />
+        <Route path="/cart/payment" element={<Payment />} />
         <Route path="/LoginSignup" element={<LoginSignup />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Profile" element={<Profile />} />
