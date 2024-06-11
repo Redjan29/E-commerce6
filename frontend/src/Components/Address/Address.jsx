@@ -16,20 +16,19 @@ const Address = () => {
 
     const validateAddress = () => {
         const newErrors = {};
-        const lettersRegex = /^[a-zA-Z\s]+$/;
-        const postalCodeRegex = /^\d{5}$/;
+        const lettersRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
 
-        if (!addressData.fullname.trim()) {
-            newErrors.fullname = 'This field is required';
+        if (!addressData.fullname.trim() || !lettersRegex.test(addressData.fullname)) {
+            newErrors.fullname = 'Only letters are allowed and this field is required';
         }
-        if (!lettersRegex.test(addressData.address)) {
-            newErrors.address = 'Only letters are allowed';
+        if (!addressData.address.trim() || !lettersRegex.test(addressData.address)) {
+            newErrors.address = 'Only letters are allowed and this field is required';
         }
-        if (!lettersRegex.test(addressData.city)) {
-            newErrors.city = 'Only letters are allowed';
+        if (!addressData.city.trim() || !lettersRegex.test(addressData.city)) {
+            newErrors.city = 'Only letters are allowed and this field is required';
         }
-        if (!postalCodeRegex.test(addressData.postalcode)) {
-            newErrors.postalcode = 'Must be exactly 5 digits';
+        if (!addressData.postalcode.trim() || !/^\d{5}$/.test(addressData.postalcode)) {
+            newErrors.postalcode = 'Must be exactly 5 digits and this field is required';
         }
         if (!addressData.country.trim()) {
             newErrors.country = 'This field is required';
@@ -47,8 +46,7 @@ const Address = () => {
     const handleAddressSubmit = (e) => {
         e.preventDefault();
         if (validateAddress()) {
-            // Save the address data or handle it as needed
-            navigate('/cart/payment');
+            navigate('/cart/payment'); // Navigate only if address is valid
         }
     };
 
@@ -64,6 +62,7 @@ const Address = () => {
                         placeholder="Enter full name"
                         value={addressData.fullname}
                         onChange={handleAddressChange}
+                        required
                     />
                     {errors.fullname && <span className="error">{errors.fullname}</span>}
                 </div>
@@ -75,6 +74,7 @@ const Address = () => {
                         placeholder="Enter address"
                         value={addressData.address}
                         onChange={handleAddressChange}
+                        required
                     />
                     {errors.address && <span className="error">{errors.address}</span>}
                 </div>
@@ -87,6 +87,7 @@ const Address = () => {
                             placeholder="Enter city"
                             value={addressData.city}
                             onChange={handleAddressChange}
+                            required
                         />
                         {errors.city && <span className="error">{errors.city}</span>}
                     </div>
@@ -98,6 +99,7 @@ const Address = () => {
                             placeholder="Enter postal code"
                             value={addressData.postalcode}
                             onChange={handleAddressChange}
+                            required
                         />
                         {errors.postalcode && <span className="error">{errors.postalcode}</span>}
                     </div>
@@ -108,6 +110,7 @@ const Address = () => {
                         name="country"
                         value={addressData.country}
                         onChange={handleAddressChange}
+                        required
                     >
                         <option value="">Select Country</option>
                         <option value="Spain">Spain</option>
@@ -117,8 +120,7 @@ const Address = () => {
                     </select>
                     {errors.country && <span className="error">{errors.country}</span>}
                 </div>
-                <Link to='/cart/payment'><button type="submit">Next</button></Link>
-               
+                <button type="submit">Next</button>
             </form>
         </div>
     );
